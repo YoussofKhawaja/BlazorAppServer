@@ -22,6 +22,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
   docker-build:
     name: Docker Build
+    needs: dotnet-build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -54,6 +55,7 @@ jobs:
             docker run --name BlazorAppServer -p 41187:80 --restart always -v public:/app/wwwroot/public -d youssofkhawaja/blazorappserver:latest
   nginx-setup:
     name: Nginx Setup
+    needs: docker-build
     runs-on: ubuntu-latest
     steps:
       - name: executing remote ssh commands
